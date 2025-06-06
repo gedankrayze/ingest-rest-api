@@ -4,8 +4,8 @@
 GET http://localhost:8000/
 HTTP 200
 [Asserts]
-jsonpath "$.message" == "MarkItDown REST API"
-jsonpath "$.status" == "running"
+header "Content-Type" contains "text/html"
+body contains "MarkItDown REST API"
 
 # Test health endpoint
 GET http://localhost:8000/health
