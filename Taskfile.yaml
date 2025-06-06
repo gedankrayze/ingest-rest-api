@@ -2,6 +2,13 @@ version: 3
 
 silent: true
 
+# Task automation for MarkItDown REST API
+# Using Task instead of Makefiles for:
+# - Cross-platform compatibility
+# - Better YAML syntax and readability  
+# - Built-in variable support
+# - Improved error handling
+
 # Load environment variables from .env file
 dotenv: ['.env', '{{.HOME}}/.env']
 

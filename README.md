@@ -17,6 +17,29 @@ A FastAPI-based REST API service that converts various file formats to Markdown 
   - Text: TXT, MD, RTF
   - Other: EPUB, ZIP
 
+## Development Tools
+
+This project uses modern development tools for improved developer experience:
+
+### Task Runner (Taskfile)
+
+We use [Task](https://taskfile.dev/) instead of traditional Makefiles for task automation. Task provides:
+
+- Cross-platform compatibility (works on Windows, macOS, Linux)
+- YAML syntax that's more readable than Makefiles
+- Built-in variable support and dependency management
+- Better error handling and output formatting
+
+### API Testing (Hurl)
+
+API testing is done with [Hurl](https://hurl.dev/) instead of traditional curl scripts or Postman collections:
+
+- Tests are written in plain text files that are easy to version control
+- Human-readable format that serves as living documentation
+- Built-in assertions and JSON path support
+- Can be integrated into CI/CD pipelines
+- Faster than UI-based testing tools
+
 ## Installation
 
 1. Create virtual environment and install dependencies:
@@ -94,7 +117,9 @@ Interactive API documentation available at:
 
 ## Testing
 
-Run tests:
+All API tests are written in Hurl format and located in `tests/hurl/`. Tests serve as both validation and documentation.
+
+Run all tests:
 ```bash
 task test
 ```
@@ -104,6 +129,23 @@ Test specific endpoints:
 task test:health    # Health endpoints
 task test:convert   # Conversion endpoints  
 task test:image     # Image OCR (requires OPENAI_API_KEY)
+```
+
+### Available Task Commands
+
+View all available tasks:
+
+```bash
+task --list
+```
+
+Common development tasks:
+
+```bash
+task install       # Install dependencies
+task start         # Start the API server
+task dev           # Start with auto-reload
+task test          # Run all tests
 ```
 
 ## Docker
