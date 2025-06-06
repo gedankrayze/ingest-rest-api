@@ -35,6 +35,11 @@ pip install -r requirements.txt
 
 Start the server:
 ```bash
+task start
+```
+
+Or manually:
+```bash
 python main.py
 ```
 
@@ -42,8 +47,10 @@ The API will be available at `http://localhost:8000`
 
 ### Environment Variables
 
+Create a `.env` file (see `.env.example`):
+
 - `OPENAI_API_KEY` - Optional: Enable OCR for image files
-- `MODEL` - Optional: OpenAI model to use for OCR (default: gpt-4o)
+- `MODEL` - Optional: OpenAI model to use for OCR (default: gpt-4o, recommended: gpt-4-turbo)
 
 ## API Endpoints
 
@@ -85,6 +92,20 @@ Interactive API documentation available at:
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
+## Testing
+
+Run tests:
+```bash
+task test
+```
+
+Test specific endpoints:
+```bash
+task test:health    # Health endpoints
+task test:convert   # Conversion endpoints  
+task test:image     # Image OCR (requires OPENAI_API_KEY)
+```
+
 ## Docker
 
 Build and run with Docker:
@@ -95,6 +116,9 @@ docker build -t markitdown-api .
 
 # Run the container
 docker run -p 8000:8000 markitdown-api
+
+# With environment variables
+docker run -p 8000:8000 -e OPENAI_API_KEY=your_key markitdown-api
 ```
 
 ## Response Format

@@ -18,7 +18,7 @@ class ConversionService:
     def __init__(self):
         # Initialize with OpenAI client if API key is available for image OCR
         api_key = os.getenv("OPENAI_API_KEY")
-        model = os.getenv("MODEL", "gpt-4o")  # Default to gpt-4o for image OCR
+        model = os.getenv("MODEL", "gpt-4o")  # Default to gpt-4o, gpt-4-turbo recommended
         
         if api_key and openai_available:
             client = OpenAI(api_key=api_key)
