@@ -1,0 +1,59 @@
+version: 3
+
+silent: true
+
+# Load environment variables from .env file
+dotenv: ['.env', '{{.HOME}}/.env']
+
+vars:
+  PYTHON_312: /opt/homebrew/bin/python3.12
+  VENV_DIR: .venv
+  SRC_DIR: src
+
+includes:
+  test: Taskfile.tests.yaml
+
+tasks:
+  venv:
+    desc: Create virtual environment with Python
+    cmds:
+      - echo "Creating virtual environment in {{.VENV_DIR}}"
+      - cmd: |
+          python -m venv {{.VENV_DIR}}
+        platforms: [darwin]
+      - cmd: python3 -m venv {{.VENV_DIR}}
+        platforms: [linux]
+      - cmd: python -m venv {{.VENV_DIR}}
+        platforms: [windows]
+
+  install:
+    desc: Install dependencies
+    deps: [venv]
+    cmds:
+      - echo "Installing dependencies"
+      - |
+        source {{.VENV_DIR}}/bin/activate
+        pip install -U pip
+        pip install -U -r requirements.txt
+
+  start:
+    desc: Start the FastAPI application
+    cmds:
+      - echo "Starting MarkItDown REST API..."
+      - |
+        source {{.VENV_DIR}}/bin/activate
+        python main.py
+
+  dev:
+    desc: Start the application in development mode with auto-reload
+    cmds:
+      - echo "Starting MarkItDown REST API in development mode..."
+      - |
+        source {{.VENV_DIR}}/bin/activate
+        uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+  test:
+    desc: Run tests
+    cmds:
+      - task -t Taskfile.tests.yaml check-server
+      - task -t Taskfile.tests.yaml all

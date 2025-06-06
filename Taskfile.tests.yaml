@@ -1,0 +1,56 @@
+version: 3
+
+silent: true
+
+vars:
+  API_URL: http://localhost:8000
+  HURL_DIR: tests/hurl
+
+tasks:
+  default:
+    desc: Run all tests
+    deps: [health, convert]
+
+  health:
+    desc: Test health endpoints
+    cmds:
+      - echo "Testing health endpoints..."
+      - hurl {{.HURL_DIR}}/health.hurl --test
+
+  convert:
+    desc: Test conversion endpoints
+    cmds:
+      - echo "Testing conversion endpoints..."
+      - hurl {{.HURL_DIR}}/convert-single.hurl --test --file-root test_files
+      - hurl {{.HURL_DIR}}/convert-batch.hurl --test --file-root test_files
+
+  all:
+    desc: Run all tests with verbose output
+    cmds:
+      - echo "Running all tests..."
+      - hurl {{.HURL_DIR}}/*.hurl --test --verbose --file-root test_files
+
+  single:
+    desc: Run a single test file
+    cmds:
+      - hurl {{.HURL_DIR}}/{{.FILE}}.hurl --test --verbose --file-root test_files
+    vars:
+      FILE: '{{.FILE | default "health"}}'
+
+  report:
+    desc: Run tests with HTML report
+    cmds:
+      - echo "Running tests with HTML report..."
+      - hurl {{.HURL_DIR}}/*.hurl --test --report-html tests/report --file-root test_files
+
+  check-server:
+    desc: Check if API server is running
+    cmds:
+      - |
+        if curl -s -f {{.API_URL}}/health > /dev/null; then
+          echo "✓ API server is running"
+        else
+          echo "✗ API server is not running. Please start it with 'task start'"
+          exit 1
+        fi
+    silent: false
