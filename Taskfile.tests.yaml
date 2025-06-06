@@ -24,6 +24,12 @@ tasks:
       - hurl {{.HURL_DIR}}/convert-single.hurl --test --file-root test_files
       - hurl {{.HURL_DIR}}/convert-batch.hurl --test --file-root test_files
 
+  image:
+    desc: Test image ingestion with OCR
+    cmds:
+      - echo "Testing image ingestion with OCR..."
+      - hurl {{.HURL_DIR}}/convert-image.hurl --test --file-root test_files
+
   all:
     desc: Run all tests with verbose output
     cmds:

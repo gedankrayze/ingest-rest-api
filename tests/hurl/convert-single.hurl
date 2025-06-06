@@ -32,6 +32,17 @@ jsonpath "$.filename" == "sample.txt"
 jsonpath "$.original_format" == ".txt"
 jsonpath "$.markdown_content" exists
 
+# Test image (JPG) conversion with OCR
+POST http://localhost:8000/api/v1/convert
+[MultipartFormData]
+file: file,sample.jpg; filename="sample.jpg"
+HTTP 200
+[Asserts]
+jsonpath "$.filename" == "sample.jpg"
+jsonpath "$.original_format" == ".jpg"
+jsonpath "$.markdown_content" exists
+jsonpath "$.metadata" exists
+
 # Test with download option
 POST http://localhost:8000/api/v1/convert?download=true
 [MultipartFormData]

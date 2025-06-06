@@ -2,10 +2,13 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from fastapi.responses import Response
 import tempfile
 import os
+import logging
 from typing import Optional
 
 from app.models.conversion import ConversionResponse, ErrorResponse
 from app.services.converter import ConversionService
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["conversion"])
 converter_service = ConversionService()
@@ -26,7 +29,10 @@ async def convert_file(
         ConversionResponse with markdown content
     """
     
+    logger.info(f"Request: {file.filename}")
+    
     if not converter_service.is_supported_format(file.filename):
+        logger.warning(f"Unsupported format: {file.filename}")
         raise HTTPException(
             status_code=400,
             detail=f"Unsupported file format. File: {file.filename}"

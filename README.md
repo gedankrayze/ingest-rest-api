@@ -7,6 +7,7 @@ A FastAPI-based REST API service that converts various file formats to Markdown 
 - Convert single files to Markdown format
 - Batch conversion support
 - Download converted files or get JSON response
+- Image OCR support (requires OpenAI API key)
 - Support for multiple file formats:
   - Documents: PDF, DOCX, PPTX, XLSX
   - Images: PNG, JPG, JPEG, GIF, BMP, TIFF
@@ -38,6 +39,11 @@ python main.py
 ```
 
 The API will be available at `http://localhost:8000`
+
+### Environment Variables
+
+- `OPENAI_API_KEY` - Optional: Enable OCR for image files
+- `MODEL` - Optional: OpenAI model to use for OCR (default: gpt-4o)
 
 ## API Endpoints
 
