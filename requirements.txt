@@ -1,6 +1,6 @@
 fastapi==0.115.12
 uvicorn[standard]==0.34.0
-python-multipart==0.0.19
+python-multipart==0.0.20
 markitdown[all]==0.1.2
 openai>=1.0.0
 pydantic>=2.11.5
