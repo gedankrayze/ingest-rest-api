@@ -1,8 +1,9 @@
-from markitdown import MarkItDown
-import time
-import os
 import logging
-from typing import Optional, Dict, Any
+import os
+import time
+from typing import Dict, Any
+
+from markitdown import MarkItDown
 
 try:
     from openai import OpenAI
