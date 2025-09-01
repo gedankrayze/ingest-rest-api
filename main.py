@@ -1,10 +1,11 @@
+import logging
+import os
+import uvicorn
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-import uvicorn
-import logging
+from fastapi.staticfiles import StaticFiles
 
 from app.routers import conversion
 
@@ -55,4 +56,5 @@ async def health_check():
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_config=None)
+    is_production = os.getenv("PRODUCTION", "false").lower() == "true"
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=not is_production, log_config=None)
